@@ -12,7 +12,7 @@ $( () => {
             defaultFill: "green"
         },
         dataType: 'csv',
-        dataUrl: 'https:///ghost.cs.nccu.edu.tw/~s10329/vis/data.csv',
+        dataUrl: './data.csv',
         geographyConfig: {
             highlightBorderColor: 'gray',
             popupTemplate: function(geography, data) {
@@ -46,7 +46,6 @@ $( () => {
 
         playBtn.prop('disabled', true);
         let timer = setInterval( ()=> {
-            console.log(_year);
             slider.val(_year);
             slider.trigger('input');
             if( ++_year > MAX_YEAR ) clearInterval(timer);
