@@ -30,7 +30,6 @@ $( () => {
             });
         }
     });
-    // map.labels();
 
     $('#range-slider').on('input', function() {
         let _year = $(this).val();
@@ -56,6 +55,12 @@ $( () => {
         }, interval*(MAX_YEAR-MIN_YEAR+3) );
     });
 
+    $(".scroll-btn").click(function(){
+        let id = $(this).data('rel');
+        $('html, body').animate({
+            scrollTop: $(`#${id}`).offset().top
+        });
+    });
     $('#range-slider').trigger('input');
 });
 function drawYear(map) {
