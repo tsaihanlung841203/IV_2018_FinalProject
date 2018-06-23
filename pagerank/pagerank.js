@@ -58,7 +58,7 @@ $( () => {
     $(".scroll-btn").click(function(){
         let id = $(this).data('rel');
         $('html, body').animate({
-            scrollTop: $(`#${id}`).offset().top
+            scrollTop: $(id).offset().top
         });
     });
     $('#range-slider').trigger('input');
