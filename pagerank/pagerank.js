@@ -1,6 +1,6 @@
 var map;
 var year;
-var MIN_YEAR = 1980;
+var MIN_YEAR = 1981;
 var MAX_YEAR = 2017;
 var colors = d3.scale.category10();
 
@@ -16,8 +16,11 @@ $( () => {
         geographyConfig: {
             highlightBorderColor: 'gray',
             popupTemplate: function(geography, data) {
-                console.log(geography.id);
-                return '<div class="hoverinfo">' + geography.properties.name + '\n' +  (data ? data[year] : "none");
+                let rankNow = data ? data[year] : -1;
+                let rankPrev = data ? data[parseInt(year)-1] : -1;
+                let rankData = getRankImprove(rankNow, rankPrev);
+                return `<div class="hoverinfo">${geography.properties.name} ${geography.id}\n`
+                 + `this year=${rankData.now}, prev year=${rankData.prev}, improve=${rankData.improve}`;
             },
             highlightBorderWidth: 1
         },
@@ -39,7 +42,7 @@ $( () => {
         let _year = MIN_YEAR;
         let slider = $('#range-slider');
         let playBtn = $(this);
-        let interval = 100;
+        let interval = 500;
 
         playBtn.prop('disabled', true);
         let timer = setInterval( ()=> {
@@ -59,23 +62,39 @@ function drawYear(map) {
     let data = map.options.data;
     let color = {};
     for( country in data ) {
-        let rank = data[country][year];
-        color[country] = parseColor(rank);
+        let rankNow = data[country][year];
+        let rankPrev = data[country][parseInt(year)-1];
+        let rankData = getRankImprove(rankNow, rankPrev);
+        // console.log(country, rankData);
+        color[country] = parseColor(rankData.improve);
     }
     // console.log(color);
     map.updateChoropleth(color);
 }
 
-function parseColor(rank) {
-    let total = 222;
-    let percent = 100*rank/total;
-    console.log(rank, percent);
-    // let gb = 255*percent;
-    // let r = 255 * (100-percent)/100;
-    // // console.log(percent);
-    // return `rgb(${r}, ${gb}, ${gb})`;
-    let s = (-0.8)*percent+100;
-    let l = 0.6*percent+20;
-    console.log(s, l);
+function getRankImprove(rankNow, rankPrev) {
+    function parseValidRank(n) {
+        let rank;
+        try {
+            rank = parseInt(n);
+            if( rank<0 ) throw "negative";
+        } catch(e) {
+            rank = 222;
+        }
+        return rank;
+    }
+    rankNow = parseValidRank(rankNow);
+    rankPrev = parseValidRank(rankPrev);
+    return {
+        now: rankNow,
+        prev: rankPrev,
+        improve: rankPrev - rankNow
+    };
+}
+function parseColor(improve) {
+
+    let s = (0.5)*improve+50;
+    let l = (-0.4)*improve+80;
+    // console.log(s, l);
     return `hsl(0, ${s}%, ${l}%)`;
 }
