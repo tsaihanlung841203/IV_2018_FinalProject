@@ -34,7 +34,7 @@ $( () => {
     $('#range-slider').on('input', function() {
         let _year = $(this).val();
         year = _year;
-        $('#year-label').text(year);
+        $('.year-label').text(year);
         drawYear(map);
     });
     $('#year-play-btn').on('click', function() {

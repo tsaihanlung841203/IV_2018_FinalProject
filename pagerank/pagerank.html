@@ -1,42 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PageRank Changing</title>
-  <link rel='stylesheet' href='./pagerank.css' />
-  <link rel='stylesheet' href='../lib/bootstrap-4.0.0.min.css' />
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PageRank Changing</title>
+    <link rel='stylesheet' href='./pagerank.css' />
+    <link rel='stylesheet' href='../lib/bootstrap-4.0.0.min.css' />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
 </head>
 <body class="pt-3 pb-3">
     <div class="container">
         <div id="chart">
-            <div class="map" id="pagerank">
+            <div class="row">
+                <div class="map col-8" id="pagerank">
+                </div>
+                <div class="col-4 text-center pl-5">
+                    <span class="h4"><span class="year-label"></span> page rank 變化前5名</span>
+                    <table class="table table-hover mt-3">
+                        <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">國名</th>
+                              <th scope="col">去年排名</th>
+                              <th scope="col">今年排名</th>
+                              <th scope="col">排名上升</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>1</th>
+                                <td class="country">Taiwan</td>
+                                <td class="rank-now">45</td>
+                                <td class="rank-prev">45</td>
+                                <td class="rank-improve">45</td>
+                            </tr>
+                            <tr>
+                                <th>2</th>
+                                <td class="country">Taiwan</td>
+                                <td class="rank-now">45</td>
+                                <td class="rank-prev">45</td>
+                                <td class="rank-improve">45</td>
+                            </tr>
+                            <tr>
+                                <th>3</th>
+                                <td class="country">Taiwan</td>
+                                <td class="rank-now">45</td>
+                                <td class="rank-prev">45</td>
+                                <td class="rank-improve">45</td>
+                            </tr>
+                            <tr>
+                                <th>4</th>
+                                <td class="country">Taiwan</td>
+                                <td class="rank-now">45</td>
+                                <td class="rank-prev">45</td>
+                                <td class="rank-improve">45</td>
+                            </tr>
+                            <tr>
+                                <th>5</th>
+                                <td class="country">Taiwan</td>
+                                <td class="rank-now">45</td>
+                                <td class="rank-prev">45</td>
+                                <td class="rank-improve">45</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="slide-container mt-3" id="slider-container">
-              <input type="range" min="1981" max="2017" value="2000" step="1" class="slider" id="range-slider">
-              <div class="row text-center mt-1">
+                <input type="range" min="1981" max="2017" value="2000" step="1" class="slider" id="range-slider">
+            </div>
+            <div class="row text-center mt-1">
                 <div class="col-3">
                 </div>
                 <div class="col-6 pt-1">
-                  <h4>A.D. <span id="year-label">1980</span></h4>
+                    <h4>A.D. <span class="year-label">1980</span></h4>
                 </div>
                 <div class="col-3">
-                  <button class="btn btn-primary" id="year-play-btn">Play <i class="fas fa-play"></i></button>
+                    <button class="btn btn-primary" id="year-play-btn">Play <i class="fas fa-play"></i></button>
                 </div>
-              </div>
             </div>
         </div>
         <div class="d-flex justify-content-center">
             <a data-rel="#description" class="scroll-btn scroll-down"></a>
         </div>
         <div class="card bg-light mb-3 mt-3" id="description">
-          <div class="card-header">Header</div>
-          <div class="card-body">
-            <h5 class="card-title">Light card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          </div>
+            <div class="card-header">
+                <span class="h5 card-title">各國Page Rank變化圖</span>
+            </div>
+            <div class="card-body">
+                <p class="card-text">這裡明天再打><</p>
+            </div>
         </div>
         <div class="d-flex justify-content-center">
             <a data-rel="body" class="scroll-btn scroll-up"></a>
