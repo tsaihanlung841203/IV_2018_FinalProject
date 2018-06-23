@@ -1,7 +1,8 @@
 .map {
     position: relative;
     margin: 0 auto;
-    height: 520px;
+    width: 800px;
+    height: 530px;
 }
 
 .slide-container {
