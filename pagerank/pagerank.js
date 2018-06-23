@@ -24,9 +24,9 @@ $( () => {
             },
             highlightBorderWidth: 1
         },
-        done: (map) => {
+        done: () => {
             setTimeout( () => {
-                drawYear(map)
+                $('#range-slider').trigger('input');
             });
         }
     });
@@ -34,7 +34,7 @@ $( () => {
     $('#range-slider').on('input', function() {
         let _year = $(this).val();
         year = _year;
-        $('#year-label').text(year);
+        $('.year-label').text(year);
         drawYear(map);
     });
     $('#year-play-btn').on('click', function() {
@@ -60,20 +60,34 @@ $( () => {
             scrollTop: $(id).offset().top
         });
     });
-    $('#range-slider').trigger('input');
 });
 function drawYear(map) {
-    let data = map.options.data;
+    let mapData = map.options.data;
     let color = {};
-    for( country in data ) {
-        let rankNow = data[country][year];
-        let rankPrev = data[country][parseInt(year)-1];
+    let rank = [];
+    let time = Date.now();
+    for( country in mapData ) {
+        let rankNow = mapData[country][year];
+        let rankPrev = mapData[country][parseInt(year)-1];
         let rankData = getRankImprove(rankNow, rankPrev);
-        // console.log(country, rankData);
+
+        rank.push({...rankData, country: country});
         color[country] = parseColor(rankData.improve);
     }
-    // console.log(color);
     map.updateChoropleth(color);
+    rank = rank.sort( (a, b) => {
+        return b.improve - a.improve;
+    });
+    // console.log(rank);
+    $('#rank-table tr').each( (index, item) => {
+        let data = rank[index];
+        // console.log(item);
+        $(item).find('#country').text(data.country);
+        $(item).find('#rank-now').text(data.now);
+        $(item).find('#rank-prev').text(data.prev);
+        $(item).find('#rank-improve').text(data.improve);
+    })
+    console.log(Date.now()-time);
 }
 
 function getRankImprove(rankNow, rankPrev) {
