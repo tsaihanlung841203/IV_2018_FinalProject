@@ -9,7 +9,7 @@ $( () => {
         element: $("#pagerank")[0],
         projection: 'mercator',
         fills: {
-            defaultFill: "green"
+            defaultFill: "#AAA"
         },
         dataType: 'csv',
         dataUrl: './data.csv',
@@ -19,14 +19,21 @@ $( () => {
                 let rankNow = data ? data[year] : -1;
                 let rankPrev = data ? data[parseInt(year)-1] : -1;
                 let rankData = getRankImprove(rankNow, rankPrev);
-                return `<div class="hoverinfo">${geography.properties.name} ${geography.id}\n`
-                 + `this year=${rankData.now}, prev year=${rankData.prev}, improve=${rankData.improve}`;
+                rankNow = rankData.now==200 ? "---" : rankData.now
+                rankPrev = rankData.prev==200 ? "---" : rankData.prev
+                return `<div class="hoverinfo">${geography.properties.name}<br>`
+                 + `去年排名: ${rankPrev}<br>今年排名: ${rankNow}<br>排名上升: ${rankData.improve}</div>`;
             },
             highlightBorderWidth: 1
         },
         done: () => {
             setTimeout( () => {
                 $('#range-slider').trigger('input');
+                map.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
+                    let country = geography.properties.name;
+                    window.open(`https://www.google.com.tw/search?q=${country} ${year}`, '_blank');
+
+                });
             });
         }
     });
@@ -60,6 +67,11 @@ $( () => {
             scrollTop: $(id).offset().top
         });
     });
+
+    $('#rank-table tr').click(function(){
+        let country = $(this).find('#country').text();
+        window.open(`https://www.google.com.tw/search?q=country ${country} ${year}`, '_blank');
+    })
 });
 function drawYear(map) {
     let mapData = map.options.data;
@@ -83,8 +95,8 @@ function drawYear(map) {
         let data = rank[index];
         // console.log(item);
         $(item).find('#country').text(data.country);
-        $(item).find('#rank-now').text(data.now);
-        $(item).find('#rank-prev').text(data.prev);
+        $(item).find('#rank-now').text( data.now==200 ? "---" : data.now );
+        $(item).find('#rank-prev').text( data.prev==200 ? "---" : data.prev );
         $(item).find('#rank-improve').text(data.improve);
     })
     console.log(Date.now()-time);
@@ -97,7 +109,7 @@ function getRankImprove(rankNow, rankPrev) {
             rank = parseInt(n);
             if( rank<0 ) throw "negative";
         } catch(e) {
-            rank = 222;
+            rank = 200;
         }
         return rank;
     }
