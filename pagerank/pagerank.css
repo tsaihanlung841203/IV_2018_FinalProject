@@ -5,6 +5,11 @@
     height: 530px;
 }
 
+.hoverinfo {
+    border-radius: 10px!important;
+    font-size: 14px!important;
+}
+
 .slide-container {
     width: 100%;
 }
