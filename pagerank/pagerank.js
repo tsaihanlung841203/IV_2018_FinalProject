@@ -70,15 +70,14 @@ $( () => {
     });
 
     $('#rank-table tr').click(function(){
-        let country = $(this).find('#country').text();
-        window.open(`https://www.google.com.tw/search?q=country ${country} ${year}`, '_blank');
+        let country = $(this).data('rel');
+        window.open(`https://www.google.com.tw/search?q=${country} ${year}`, '_blank');
     })
 });
 function drawYear(map) {
     let mapData = map.options.data;
     let color = {};
     let rank = [];
-    let time = Date.now();
     for( country in mapData ) {
         let rankNow = mapData[country][year];
         let rankPrev = mapData[country][parseInt(year)-1];
@@ -94,13 +93,12 @@ function drawYear(map) {
     // console.log(rank);
     $('#rank-table tr').each( (index, item) => {
         let data = rank[index];
-        // console.log(item);
+        $(item).data('rel', convertCountryId(data.country));
         $(item).find('#country').text(data.country);
         $(item).find('#rank-now').text( data.now==200 ? "---" : data.now );
         $(item).find('#rank-prev').text( data.prev==200 ? "---" : data.prev );
         $(item).find('#rank-improve').text(data.improve);
     })
-    console.log(Date.now()-time);
 }
 
 function getRankImprove(rankNow, rankPrev) {
@@ -128,4 +126,7 @@ function parseColor(improve) {
     let l = (-0.4)*improve+80;
     // console.log(s, l);
     return `hsl(0, ${s}%, ${l}%)`;
+}
+function convertCountryId(orig) {
+    return countryTable[orig] || orig;
 }
